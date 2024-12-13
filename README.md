@@ -1,41 +1,13 @@
-# README: Hybrid Forecasting and Portfolio Optimization Script
+# Hybrid Forecast & Portfolio Optimization
 
-## Overview
+This project provides a framework for generating 7-year Real Estate return forecasts and de-smoothed volatility estimates across multiple sector-region pairs, leveraging ARIMA/SARIMA models and forward-looking macroeconomic adjustments. It also employs Michaud Resampling for improved and robust portfolio allocations.
 
-This script provides a comprehensive framework for forecasting Real Estate financial returns across various sectors and regions using a hybrid methodology. It integrates statistical time-series models (SARIMA and ARIMA) with forward-looking adjustments to account for macroeconomic factors, sector-specific trends, and regional influences. Additionally, it includes a Michaud resampling process for portfolio optimization based on forecasted returns and risks.
+**Features**:
+- Hybrid long-term return forecasting with SARIMA and sector/region-specific macro adjustments.
+- De-smoothed volatility estimation for more realistic risk parameters.
+- Michaud Resampling for enhanced portfolio diversification and robustness.
+- Organized code structure, automated testing, and continuous integration.
 
----
-
-## Features
-
-1. **Hybrid Forecasting Methodology**:
-   - Combines SARIMA (for seasonality) and ARIMA models for time-series forecasting.
-   - Applies forward-looking adjustments for macroeconomic factors (e.g., GDP growth, inflation).
-
-2. **Volatility Analysis**:
-   - Calculates historical volatility for each sector-region combination.
-   - De-smooths volatility to provide a realistic risk estimate.
-
-3. **Portfolio Optimization**:
-   - Uses Michaud resampling to create a robust and diversified portfolio.
-   - Ensures optimal allocation with risk constraints and maximum weight limits.
-
-4. **Output**:
-   - Generates sector-region-specific forecasts and risk metrics.
-   - Provides an optimised portfolio allocation.
-
----
-
-## Installation and Requirements
-
-### Dependencies
-
-The script requires the following Python libraries:
-- `numpy`
-- `pandas`
-- `statsmodels`
-- `scipy`
-
-Install dependencies using:
+**Getting Started**:
 ```bash
-pip install numpy pandas statsmodels scipy
+pip install -r requirements.txt
