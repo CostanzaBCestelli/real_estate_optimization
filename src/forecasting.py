@@ -8,6 +8,12 @@ from statsmodels.tsa.arima.model import ARIMA
 def load_data(file_path):
     """
     Load historical data from a CSV file.
+    
+    Parameters:
+    - file_path (str): Path to the CSV file.
+    
+    Returns:
+    - pd.DataFrame: Pivoted DataFrame with 'Total Return'.
     """
     data = pd.read_csv(file_path)
     data['Year'] = pd.to_datetime(data['Year'], format='%Y')
@@ -19,6 +25,15 @@ def load_data(file_path):
 def hybrid_forecast(data, sector, region, forecast_years=7):
     """
     Perform hybrid forecasting for a given sector and region.
+    
+    Parameters:
+    - data (pd.DataFrame): Pivoted DataFrame with 'Total Return'.
+    - sector (str): Sector name.
+    - region (str): Region name.
+    - forecast_years (int): Number of years to forecast.
+    
+    Returns:
+    - dict: Forecast results including adjusted returns and volatilities.
     """
     series = data[(sector, region)].dropna()
 
@@ -27,7 +42,8 @@ def hybrid_forecast(data, sector, region, forecast_years=7):
         model = SARIMAX(series, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
         sarima_fit = model.fit(disp=False)
         forecast = sarima_fit.forecast(steps=forecast_years)
-    except:
+    except Exception as e:
+        print(f"SARIMA failed: {e}. Falling back to ARIMA.")
         model = ARIMA(series, order=(1, 1, 1))
         arima_fit = model.fit()
         forecast = arima_fit.forecast(steps=forecast_years)
@@ -64,38 +80,21 @@ def hybrid_forecast(data, sector, region, forecast_years=7):
     }
     return results
 
+# Optional: Main execution block
+if __name__ == "__main__":
+    pivot_data = load_data('data/historical_data.csv')  # Adjust the path as needed
 
-# Generate Forecast for Each Sector/Region Combination
-# The function is applied to generate forecasts for all combinations of sectors and regions.
-forecast_results = []
-sectors = pivot_data.columns.get_level_values(0).unique()
-regions = pivot_data.columns.get_level_values(1).unique()
+    forecast_results = []
+    sectors = pivot_data.columns.get_level_values(0).unique()
+    regions = pivot_data.columns.get_level_values(1).unique()
 
-for sector in sectors:
-    for region in regions:
-        if (sector, region) in pivot_data.columns:
-            result = hybrid_forecast(pivot_data, sector, region)
-            forecast_results.append(result)
+    for sector in sectors:
+        for region in regions:
+            if (sector, region) in pivot_data.columns:
+                result = hybrid_forecast(pivot_data, sector, region)
+                forecast_results.append(result)
 
-# Convert Results to DataFrame
-# The forecast results are compiled into a DataFrame for easy analysis and saving.
-forecast_df = pd.DataFrame(forecast_results)
+    forecast_df = pd.DataFrame(forecast_results)
+    forecast_df.to_csv('forecast_results.csv', index=False)
 
-# Save the Forecast Results to CSV
-# The results are saved to a CSV file for further use.
-forecast_df.to_csv('/path/to/forecast_results.csv', index=False)
-
-# Display Summary of Results
-print(forecast_df.head())
-
-import numpy as np
-import pandas as pd
-from scipy.optimize import minimize
-
-# Load Forecast Results
-data = pd.read_csv('/path/to/forecast_results.csv')
-
-# Extract Expected Returns and Volatility
-data['Risk'] = data['De-smoothed Volatility']
-data['Return'] = data['Forecast'].apply(lambda x: np.mean(eval(x)))
-data = data[['Sector', 'Region', 'Return', 'Risk']]
+    print(forecast_df.head())
