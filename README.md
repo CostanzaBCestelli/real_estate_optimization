@@ -11,3 +11,5 @@ This project provides a framework for generating 7-year Real Estate return forec
 **Getting Started**:
 ```bash
 pip install -r requirements.txt
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
