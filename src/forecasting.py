@@ -6,17 +6,9 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.arima.model import ARIMA
 
 def load_data(file_path):
-    """
-    Load historical data from a CSV file.
-    
-    Parameters:
-    - file_path (str): Path to the CSV file.
-    
-    Returns:
-    - pd.DataFrame: Pivoted DataFrame with 'Total Return'.
-    """
     data = pd.read_csv(file_path)
-    data['Year'] = pd.to_datetime(data['Year'], format='%Y')
+    # Remove the 'format' parameter to allow pandas to infer the date format
+    data['Year'] = pd.to_datetime(data['Year'])
     data.set_index('Year', inplace=True)
     pivot_data = data.pivot_table(values='Total Return', index='Year', columns=['Sector', 'Region'])
     pivot_data.dropna(axis=1, inplace=True)
