@@ -1,5 +1,7 @@
 # Hybrid Forecast & Portfolio Optimization
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This project provides a framework for generating 7-year Real Estate return forecasts and de-smoothed volatility estimates across multiple sector-region pairs, leveraging ARIMA/SARIMA models and forward-looking macroeconomic adjustments. It also employs Michaud Resampling for improved and robust portfolio allocations.
 
 **Features**:
@@ -12,4 +14,4 @@ This project provides a framework for generating 7-year Real Estate return forec
 ```bash
 pip install -r requirements.txt
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
