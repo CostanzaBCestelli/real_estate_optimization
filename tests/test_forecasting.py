@@ -1,26 +1,19 @@
+# tests/test_forecasting.py
+
 import pandas as pd
 import numpy as np
 import os
-from src.forecasting import hybrid_forecast
+from src.forecasting import hybrid_forecast, load_data
 
 def test_hybrid_forecast_with_synthetic_data():
     # Construct the path to the synthetic data
     test_dir = os.path.dirname(__file__)
     data_path = os.path.join(test_dir, 'data', 'synthetic_historical_data.csv')
     
-    # Load the synthetic historical data
-    # Expected columns: Year, Sector, Region, Total Return
-    data = pd.read_csv(data_path)
-    data['Year'] = pd.to_datetime(data['Year'], format='%Y')
-    data.set_index('Year', inplace=True)
-
-    # Pivot the data to the required format
-    pivot_data = data.pivot_table(values='Total Return', index='Year', columns=['Sector','Region'])
-    pivot_data.dropna(axis=1, inplace=True)
+    # Load the synthetic historical data using the refactored load_data function
+    pivot_data = load_data(data_path)
 
     # Pick a known sector-region combination from synthetic data
-    # For the sake of example, let's assume 'Office' and 'Europe' are present.
-    # Update these values to match something that exists in your synthetic dataset.
     sector = 'Office'
     region = 'Europe'
 
@@ -48,3 +41,4 @@ def test_hybrid_forecast_with_synthetic_data():
     assert (result['Forecast'] < 1.0).all(), "Forecast values should not be unrealistically high."
 
     # If all assertions pass, the test will succeed.
+
