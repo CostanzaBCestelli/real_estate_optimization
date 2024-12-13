@@ -2,7 +2,7 @@
 
 ## Overview
 
-This script provides a comprehensive framework for forecasting financial returns across various sectors and regions using a hybrid methodology. It integrates statistical time-series models (SARIMA and ARIMA) with forward-looking adjustments to account for macroeconomic factors, sector-specific trends, and regional influences. Additionally, it includes a Michaud resampling process for portfolio optimization based on forecasted returns and risks.
+This script provides a comprehensive framework for forecasting Real Estate financial returns across various sectors and regions using a hybrid methodology. It integrates statistical time-series models (SARIMA and ARIMA) with forward-looking adjustments to account for macroeconomic factors, sector-specific trends, and regional influences. Additionally, it includes a Michaud resampling process for portfolio optimization based on forecasted returns and risks.
 
 ---
 
